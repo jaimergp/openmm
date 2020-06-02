@@ -39,6 +39,10 @@ jobs:
           packages:
             - gcc-8
             - g++-8
+            - doxygen
+            - python-numpy
+            - python-scipy
+            - libfftw3-dev
 
 
 before_install:
