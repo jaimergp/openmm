@@ -34,6 +34,11 @@ jobs:
            CMAKE_FLAGS=""
            CC=gcc-8
            CXX=g++-8
+      addons:
+        apt:
+          packages:
+            - gcc-8
+            - g++-8
 
 
 before_install:
