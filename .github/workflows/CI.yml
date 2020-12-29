@@ -16,8 +16,9 @@ on:
 
 jobs:
   unix:
-    runs-on: ${{ matrix.os }}
     name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.docker-image }}
     env:
       CCACHE_BASEDIR: "${{ github.workspace }}"
       CCACHE_DIR: "${{ github.workspace }}/.ccache"
@@ -29,6 +30,7 @@ jobs:
       matrix:
         include:
           - name: Linux CUDA 10.0
+            docker-image: quay.io/condaforge/linux-anvil-cuda:10.0
             os: ubuntu-latest
             python-version: "3.6"
             cuda-version: "10.0"
@@ -291,6 +293,7 @@ jobs:
 
       - uses: conda-incubator/setup-miniconda@v2
         name: "Prepare base dependencies"
+        if: matrix.docker-image
         with:
           python-version: ${{ matrix.python-version }}
           activate-environment: build
@@ -298,7 +301,7 @@ jobs:
           auto-activate-base: false
 
       - name: "Install CUDA on Ubuntu (if needed)"
-        if: matrix.cuda-version != '' && startsWith(matrix.os, 'ubuntu')
+        if: matrix.docker-image && matrix.cuda-version != '' && startsWith(matrix.os, 'ubuntu')
         env:
           CUDA_VERSION: ${{ matrix.cuda-version }}
         run: source devtools/ci/gh-actions/scripts/install_cuda.sh
