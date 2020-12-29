@@ -30,7 +30,7 @@ jobs:
       matrix:
         include:
           - name: Linux CUDA 10.0
-            docker-image: quay.io/condaforge/linux-anvil-cuda:10.0
+            docker-image: quay.io/condaforge/linux-anvil-ppc64le-cuda:10.2
             os: ubuntu-latest
             python-version: "3.6"
             cuda-version: "10.0"
